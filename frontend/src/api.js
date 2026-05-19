@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "https://collab-design-hussain-v1-0.onrender.com",
   headers: { "Content-Type": "application/json" },
   validateStatus: (status) => status < 500, // Treat 4xx errors as valid responses
 });

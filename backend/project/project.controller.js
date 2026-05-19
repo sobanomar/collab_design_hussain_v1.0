@@ -1,7 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const jwt = require("../middleware/jwt");
-const { createProject, upload } = require("./requests/create");
+const {
+  createProject,
+  upload,
+  uploadProjectImage,
+} = require("./requests/create");
 const getUserProjects = require("./requests/getUserProjects");
 const updateStatus = require("./requests/updateStatus");
 const { getProjectById } = require("./project.service");
@@ -18,7 +22,7 @@ const Version = require("./version.model");
 const Diagram = require("../diagram/diagram.model");
 
 router.put("/update", jwt, upload.single("image"), updateProject);
-router.post("/create", jwt, upload.single("projectImage"), createProject);
+router.post("/create", jwt, uploadProjectImage, createProject);
 router.get("/user-projects", jwt, getUserProjects);
 router.put("/update-status", jwt, updateStatus);
 router.put("/remove-member", jwt, removeMemberFromProject);

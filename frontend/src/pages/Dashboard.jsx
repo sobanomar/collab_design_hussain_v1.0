@@ -147,7 +147,9 @@ const Dashboard = () => {
       const formData = new FormData();
       formData.append("name", projectData.name);
       formData.append("description", projectData.description);
-      formData.append("projectImage", projectData.projectImage); // Append the file
+      if (projectData.projectImage instanceof File) {
+        formData.append("projectImage", projectData.projectImage);
+      }
       projectData.members.forEach((email, index) =>
         formData.append(`members[${index}]`, email)
       );

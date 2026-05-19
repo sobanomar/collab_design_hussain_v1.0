@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const passport = require("passport");
 const session = require("express-session");
 const path = require("path");
+const fs = require("fs");
 const http = require("http");
 const { setupSocket } = require("./socket");
 
@@ -20,6 +21,10 @@ const notificationRoutes = require("./notification/notification.controller");
 const app = express();
 const server = http.createServer(app);
 const PORT = process.env.PORT || 3000;
+
+[path.join(__dirname, "uploads"), path.join(__dirname, "uploads/projects")].forEach(
+  (dir) => fs.mkdirSync(dir, { recursive: true }),
+);
 
 app.use(express.json());
 app.use(

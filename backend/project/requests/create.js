@@ -1,15 +1,39 @@
 const multer = require("multer");
 const path = require("path");
+const fs = require("fs");
 const Project = require("../project.model");
 const User = require("../../user/user.model");
 const Invitation = require("../invitation/invitation.model");
 const { sendEmail } = require("../../shared/mail.service");
 const crypto = require("crypto");
 
+const UPLOAD_DIR = path.join(__dirname, "../../uploads/projects");
+fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+
+const parseMembers = (body) => {
+  const { members } = body;
+  if (Array.isArray(members)) {
+    return members.map((e) => String(e).trim()).filter(Boolean);
+  }
+  if (typeof members === "string" && members.trim()) {
+    return [members.trim()];
+  }
+  if (members && typeof members === "object") {
+    return Object.values(members)
+      .map((e) => String(e).trim())
+      .filter(Boolean);
+  }
+  return Object.entries(body)
+    .filter(([key]) => /^members(\[\d+\])?$/.test(key))
+    .sort(([a], [b]) => a.localeCompare(b, undefined, { numeric: true }))
+    .map(([, value]) => String(value).trim())
+    .filter(Boolean);
+};
+
 // Storage and file filter setup remains the same
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, "../../uploads/projects"));
+    cb(null, UPLOAD_DIR);
   },
   filename: (req, file, cb) => {
     cb(null, `${Date.now()}_${file.originalname}`);
@@ -27,8 +51,21 @@ const fileFilter = (req, file, cb) => {
 
 const upload = multer({ storage, fileFilter });
 
+const uploadProjectImage = (req, res, next) => {
+  upload.single("projectImage")(req, res, (err) => {
+    if (!err) {
+      return next();
+    }
+    if (err.code === "LIMIT_UNEXPECTED_FILE") {
+      return next();
+    }
+    return res.status(400).json({ success: false, message: err.message });
+  });
+};
+
 const createProject = async (req, res) => {
-  const { name, description, members = [] } = req.body;
+  const { name, description } = req.body;
+  const members = parseMembers(req.body);
 
   try {
     // Handle uploaded file
@@ -50,7 +87,17 @@ const createProject = async (req, res) => {
 
     // Step 2: Process invitations for each member email
     const inviter = await User.findById(req.user.userId);
+    if (!inviter) {
+      return res.status(401).json({
+        success: false,
+        message: "Signed-in user not found. Please log in again.",
+      });
+    }
     const invitationResults = [];
+    const invitationTemplate = path.join(
+      __dirname,
+      "../mails/projectInvitation.html",
+    );
 
     for (const email of members) {
       try {
@@ -111,7 +158,7 @@ const createProject = async (req, res) => {
 
         await sendEmail(
           `Invitation to join project: ${project.name}`,
-          "./project/mails/projectInvitation.html",
+          invitationTemplate,
           email,
           {
             projectName: project.name,
@@ -145,8 +192,9 @@ const createProject = async (req, res) => {
       invitations: invitationResults,
     });
   } catch (error) {
+    console.error("createProject failed:", error);
     res.status(500).json({ success: false, message: error.message });
   }
 };
 
-module.exports = { createProject, upload };
+module.exports = { createProject, upload, uploadProjectImage };
