@@ -33,16 +33,50 @@ Copy from your local `.env`, but set:
 | `GOOGLE_CLIENT_SECRET` | same |
 | `GITHUB_CLIENT_ID` | same |
 | `GITHUB_CLIENT_SECRET` | same |
-| Mail vars | if you use email features |
+| Mail vars | see **Email** section below |
 
-## 4. Google OAuth (required for Google sign-in)
+## 4. Email (verification, password reset, invitations)
+
+**Render free tier blocks outbound SMTP** (ports 25, 465, 587). Gmail/`MAIL_HOST` SMTP will fail silently or timeout in production.
+
+### Option A — SendGrid (recommended on free Render)
+
+1. [sendgrid.com](https://sendgrid.com) → create account → **Settings → API Keys** → Create key.
+2. **Settings → Sender Authentication** → verify a single sender email (e.g. your Gmail).
+3. On **Render**, add:
+
+| Key | Value |
+|-----|--------|
+| `SENDGRID_API_KEY` | `SG....` from SendGrid |
+| `MAIL_FROM` | The **same verified** email address |
+
+Remove or leave SMTP vars empty; the app uses SendGrid when `SENDGRID_API_KEY` is set.
+
+### Option B — SMTP (local dev or Render paid instance)
+
+Gmail example:
+
+| Key | Value |
+|-----|--------|
+| `MAIL_HOST` | `smtp.gmail.com` |
+| `MAIL_PORT` | `587` |
+| `MAIL_EMAIL` | your Gmail |
+| `MAIL_PASSWORD` | [App Password](https://myaccount.google.com/apppasswords) (not your normal password) |
+| `MAIL_FROM` | `yourname@gmail.com` |
+
+### Check Render logs
+
+After sign-up or “forgot password”, logs should show `Email sent (SendGrid)` or `Email sent (SMTP)`.  
+If you see `sendEmail failed`, fix the vars above.
+
+## 5. Google OAuth (required for Google sign-in)
 
 In [Google Cloud Console](https://console.cloud.google.com/) → APIs & Credentials → your OAuth client:
 
 - **Authorized redirect URIs:** add  
   `https://YOUR-SERVICE-NAME.onrender.com/api/auth/google/callback`
 
-## 5. Point frontend at Render
+## 6. Point frontend at Render
 
 In `frontend/src/constants/BACKEND.js` and `frontend/src/api.js`:
 
@@ -51,7 +85,7 @@ export const BACKEND_URL = "https://YOUR-SERVICE-NAME.onrender.com";
 // axios baseURL: same URL
 ```
 
-## 6. Verify
+## 7. Verify
 
 - Render logs should show: `Connected to MongoDB Atlas successfully!`
 - Open `https://YOUR-SERVICE-NAME.onrender.com/api/auth/google` in browser (should redirect to Google)

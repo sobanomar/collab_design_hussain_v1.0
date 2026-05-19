@@ -496,7 +496,7 @@ async function sendVerificationLink(user, otp) {
     link: link,
   };
   const template = path.join(__dirname, "mails", "verification.html");
-  sendEmail("Verification Link", template, user.email, replacements);
+  await sendEmail("Verification Link", template, user.email, replacements);
 }
 
 async function sendForgotLink(user, resetToken) {
@@ -511,7 +511,7 @@ async function sendForgotLink(user, resetToken) {
     name: user.name,
   };
   const template = path.join(__dirname, "mails", "forgot.html");
-  sendEmail("Reset Your Password", template, user.email, replacements);
+  await sendEmail("Reset Your Password", template, user.email, replacements);
 }
 
 module.exports = router;
