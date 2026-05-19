@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+
+# Secrets
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build output
+frontend/dist/
+apollon/dist/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Uploads (runtime data)
+backend/uploads/**/*
+!backend/uploads/**/.gitkeep

@@ -1,0 +1,17 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UMLComponent = void 0;
+var tslib_1 = require("tslib");
+var uml_package_1 = require("../uml-package/uml-package");
+var UMLComponent = /** @class */ (function (_super) {
+    tslib_1.__extends(UMLComponent, _super);
+    function UMLComponent() {
+        var _this = _super.apply(this, tslib_1.__spreadArray([], tslib_1.__read(arguments), false)) || this;
+        _this.stereotype = 'component';
+        _this.displayStereotype = true;
+        return _this;
+    }
+    return UMLComponent;
+}(uml_package_1.UMLPackage));
+exports.UMLComponent = UMLComponent;
+//# sourceMappingURL=uml-component.js.map

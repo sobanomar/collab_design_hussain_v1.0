@@ -1,0 +1,18 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ActivityRelationshipType = exports.ActivityElementType = void 0;
+exports.ActivityElementType = {
+    Activity: 'Activity',
+    ActivityActionNode: 'ActivityActionNode',
+    ActivityFinalNode: 'ActivityFinalNode',
+    ActivityForkNode: 'ActivityForkNode',
+    ActivityForkNodeHorizontal: 'ActivityForkNodeHorizontal',
+    ActivityInitialNode: 'ActivityInitialNode',
+    ActivityMergeNode: 'ActivityMergeNode',
+    ActivityObjectNode: 'ActivityObjectNode',
+    ActivitySwimlane: 'ActivitySwimlane',
+};
+exports.ActivityRelationshipType = {
+    ActivityControlFlow: 'ActivityControlFlow',
+};
+//# sourceMappingURL=index.js.map

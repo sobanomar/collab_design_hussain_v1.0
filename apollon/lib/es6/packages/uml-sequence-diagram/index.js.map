@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../../../../src/main/packages/uml-sequence-diagram/index.ts"],"names":[],"mappings":"AAAA,MAAM,CAAC,MAAM,mBAAmB,GAAG;IAC/B,gBAAgB,EAAE,kBAAkB;IACpC,kBAAkB,EAAE,oBAAoB;IACxC,gBAAgB,EAAE,kBAAkB;IACpC,aAAa,EAAE,eAAe;IAC9B,YAAY,EAAE,cAAc;CAEpB,CAAC;AAEX,MAAM,CAAC,MAAM,wBAAwB,GAAG;IACtC,eAAe,EAAE,iBAAiB;CAC1B,CAAC"}
