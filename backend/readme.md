@@ -19,9 +19,6 @@ Track changes to project artifacts, view past versions, and restore them as need
 ✅ **Built-in Team Chat**  
 Communicate in real time with your team, ensuring everyone stays connected and on track.
 
-✅ **Discussion Forum**  
-Engage with peers, share insights, ask questions, and exchange ideas to support your academic projects.
-
 ---
 
 ## ⚙️ Technologies Used
@@ -46,7 +43,7 @@ Many existing tools offer limited functionality, forcing users to switch between
 - Help students overcome documentation challenges.
 - Provide a unified platform combining diagramming, requirements management, and collaboration.
 - Improve productivity by reducing complexity.
-- Foster seamless teamwork with built-in chat and forums.
+- Foster seamless teamwork with built-in team chat.
 
 ---
 
@@ -56,7 +53,6 @@ Many existing tools offer limited functionality, forcing users to switch between
 - Requirement Management
 - Version Control
 - Team Collaboration (Chat)
-- Discussion Forum
 
 ---
 

@@ -38,24 +38,6 @@ const HomeHeader = ({ toggleModal }) => {
               FAQ
             </a>
           </li>
-          {/* <li>
-                        <a
-                            href="#Try"
-                            onClick={(e) => handleScroll(e, 'Try')}
-                            className="hover:underline"
-                        >
-                            Try it
-                        </a>
-                    </li> */}
-          <li>
-            <a
-              href="#Try"
-              onClick={(e) => handleScroll(e, "Try")}
-              className="hover:underline"
-            >
-              Forum
-            </a>
-          </li>
         </ul>
         <PrimaryButton
           text={"Sign in / Sign up"}
