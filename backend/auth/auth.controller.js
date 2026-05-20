@@ -88,7 +88,7 @@ router.post("/sign-up", checkCreateParams, async (req, res, next) => {
 
     await authData.save();
 
-    sendVerificationLink(user, otp);
+    await sendVerificationLink(user, otp);
 
     return sendSuccessResponse(res, "Verification sent to your email", {
       userId: user._id,
@@ -228,10 +228,9 @@ router.post("/resend-verification-link", async (req, res, next) => {
       expiration: otp.expiration,
     });
     await authData.save();
-    ``;
-    sendVerificationLink(userExist, otp);
 
-    // Return success response with user data and JWT token
+    await sendVerificationLink(userExist, otp);
+
     return sendSuccessResponse(res, "Verification sent to your email");
   } catch (error) {
     console.error("Error while signing up :", error);
@@ -254,7 +253,7 @@ router.post("/forgot-password", async (req, res) => {
     // Set token expiration time (e.g., 1 hour)
     // const tokenExpiration = Date.now() + 3600000; // 1 hour
 
-    sendForgotLink(user, resetToken.code);
+    await sendForgotLink(user, resetToken.code);
     user.resetToken = resetToken.code;
     user.resetTokenExpiration = resetToken.expiration;
     await user.save();

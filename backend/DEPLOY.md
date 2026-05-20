@@ -37,22 +37,29 @@ Copy from your local `.env`, but set:
 
 ## 4. Email (verification, password reset, invitations)
 
-**Render free tier blocks outbound SMTP** (ports 25, 465, 587). Gmail/`MAIL_HOST` SMTP will fail silently or timeout in production.
+**Render free tier blocks outbound SMTP** (ports 25, 465, 587). Gmail/`MAIL_HOST` SMTP will fail in production.
 
-### Option A — SendGrid (recommended on free Render)
+### Option A — Brevo (recommended — permanent free tier)
 
-1. [sendgrid.com](https://sendgrid.com) → create account → **Settings → API Keys** → Create key.
-2. **Settings → Sender Authentication** → verify a single sender email (e.g. your Gmail).
-3. On **Render**, add:
+1. [brevo.com](https://www.brevo.com) → sign up.
+2. **Senders, domains & dedicated IPs → Senders** → add and verify your email (check inbox for confirmation link).
+3. **SMTP & API → API keys** → **Generate a new API key** (enable transactional email).
+4. On **Render**, add:
 
 | Key | Value |
 |-----|--------|
-| `SENDGRID_API_KEY` | `SG....` from SendGrid |
-| `MAIL_FROM` | The **same verified** email address |
+| `BREVO_API_KEY` | `xkeysib-...` from Brevo |
+| `MAIL_FROM` | The **same verified** sender email |
+| `MAIL_FROM_NAME` | optional, e.g. `Collab Design` |
 
-Remove or leave SMTP vars empty; the app uses SendGrid when `SENDGRID_API_KEY` is set.
+Remove `SENDGRID_API_KEY` if you are not using SendGrid. Leave SMTP vars empty on Render.
 
-### Option B — SMTP (local dev or Render paid instance)
+### Option B — SendGrid (60-day trial, then paid)
+
+1. [sendgrid.com](https://sendgrid.com) → **Settings → API Keys** + verify sender.
+2. On **Render**: `SENDGRID_API_KEY` + `MAIL_FROM` (do not set `BREVO_API_KEY` if using SendGrid only).
+
+### Option C — SMTP (local dev or Render paid instance)
 
 Gmail example:
 
@@ -66,7 +73,7 @@ Gmail example:
 
 ### Check Render logs
 
-After sign-up or “forgot password”, logs should show `Email sent (SendGrid)` or `Email sent (SMTP)`.  
+After sign-up or “forgot password”, logs should show `Email sent (Brevo)`, `Email sent (SendGrid)`, or `Email sent (SMTP)`.  
 If you see `sendEmail failed`, fix the vars above.
 
 ## 5. Google OAuth (required for Google sign-in)

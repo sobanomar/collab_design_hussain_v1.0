@@ -7,6 +7,7 @@ const path = require("path");
 const fs = require("fs");
 const http = require("http");
 const { setupSocket } = require("./socket");
+const { logMailConfig } = require("./shared/mail.service");
 
 require("dotenv").config();
 
@@ -103,6 +104,7 @@ const connectToMongoDB = async () => {
 const startServer = async () => {
   try {
     await connectToMongoDB();
+    logMailConfig();
     setupSocket(server, app);
     server.listen(PORT, "0.0.0.0", () => {
       console.log(`Server is running on http://localhost:${PORT}`);
